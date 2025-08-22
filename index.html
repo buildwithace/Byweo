@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Byweo - Crypto Trading Platform</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .mobile-container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .mobile-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 20, 25, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 24px;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .header-link {
+            color: #8892b0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .header-link:hover {
+            color: #00d4ff;
+        }
+        
+        .mobile-main {
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 80px);
+        }
+        
+        .auth-page {
+            display: none;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .auth-page.active {
+            display: block;
+        }
+        
+        .crypto-visual {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        
+        .crypto-logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 50%, #f7931a 100%);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .crypto-logo::before {
+            content: '₿';
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+        
+        .auth-form-container {
+            background: rgba(26, 31, 46, 0.8);
+            border: 1px solid #2d3748;
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .auth-link {
+            color: #8892b0;
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: block;
+        }
+        
+        .link-text {
+            color: #00d4ff;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .link-text:hover {
+            color: #0099cc;
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 32px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(45, 55, 72, 0.6);
+            border: 2px solid #2d3748;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            border-color: #00d4ff;
+            outline: none;
+            background: rgba(45, 55, 72, 0.8);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+        
+        input::placeholder {
+            color: #4a5568;
+        }
+        
+        .password-input {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
+            color: #00d4ff;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+        
+        .password-toggle:hover {
+            color: #0099cc;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin: 24px 0;
+            font-size: 14px;
+            color: #8892b0;
+            line-height: 1.5;
+        }
+        
+        .checkbox-group input {
+            margin-right: 12px;
+            margin-top: 2px;
+            accent-color: #00d4ff;
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+        
+        .btn-continue {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: #0f1419;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+        }
+        
+        .btn-continue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
+        }
+        
+        .btn-continue:active {
+            transform: translateY(0);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 1000;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+        
+        .notification.success {
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+            border: 1px solid #10b981;
+        }
+        
+        .notification.error {
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            border: 1px solid #ef4444;
+        }
+        
+        .notification.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        
+        @media (min-width: 768px) {
+            .mobile-container {
+                max-width: 500px;
+                margin: 20px auto;
+                border-radius: 20px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+                min-height: calc(100vh - 40px);
+                overflow: hidden;
+            }
+            
+            .mobile-main {
+                padding: 60px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <header class="mobile-header">
+            <div class="logo">
+                <div class="logo-icon">B</div>
+                <span class="logo-text">Byweo</span>
+            </div>
+            <div class="header-links">
+                <a href="#" class="header-link">Crypto</a>
+                <a href="#" class="header-link">Terms</a>
+                <a href="#" class="header-link">Privacy</a>
+            </div>
+        </header>
+
+        <main class="mobile-main">
+            <!-- Login Page (now active by default) -->
+            <div id="loginForm" class="auth-page active">
+                <div class="crypto-visual">
+                    <div class="crypto-logo"></div>
+                </div>
+
+                <div class="auth-form-container">
+                    <div class="auth-header">
+                        <span class="auth-link">Don't have an account? <span class="link-text" onclick="switchToRegister()">Sign up</span></span>
+                    </div>
+                    <h2>Login</h2>
+                    <form id="loginFormElement">
+                        <div class="form-group">
+                            <label>EMAIL</label>
+                            <input type="email" id="loginEmail" placeholder="Email address" required>
+                        </div>
+                        <div class="form-group">
+                            <label>PASSWORD</label>
+                            <div class="password-input">
+                                <input type="password" id="loginPassword" placeholder="Password" required>
+                                <span class="password-toggle" onclick="togglePassword('loginPassword')">👁</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-continue">Continue</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Registration Page -->
+            <div id="landingPage" class="auth-page">
+                <div class="crypto-visual">
+                    <div class="crypto-logo"></div>
+                </div>
+
+                <div class="auth-form-container">
+                    <div class="auth-header">
+                        <span class="auth-link">Already have an account? <span class="link-text" onclick="switchToLogin()">Login</span></span>
+                    </div>
+                    <h2>Sign up</h2>
+                    <form id="registerFormElement">
+                        <div class="form-group">
+                            <label>EMAIL</label>
+                            <input type="email" id="registerEmail" placeholder="Email address" required>
+                        </div>
+                        <div class="form-group">
+                            <label>PASSWORD</label>
+                            <div class="password-input">
+                                <input type="password" id="registerPassword" placeholder="Password" required>
+                                <span class="password-toggle" onclick="togglePassword('registerPassword')">👁</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>CONFIRM PASSWORD</label>
+                            <div class="password-input">
+                                <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+                                <span class="password-toggle" onclick="togglePassword('confirmPassword')">👁</span>
+                            </div>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="termsCheck" required>
+                            <label for="termsCheck">By signing up I agree that I'm 18 years of age or older, to the <a href="#" class="link-text">Terms of Use</a>, <a href="#" class="link-text">Privacy Policy</a></label>
+                        </div>
+                        <button type="submit" class="btn-continue">Continue</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="notification" class="notification"></div>
+    <script src="script.js"></script>
+    
+    <script>
+        // Toggle password visibility
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        // Switch between login and register forms
+        function switchToLogin() {
+            document.getElementById('landingPage').classList.remove('active');
+            document.getElementById('loginForm').classList.add('active');
+        }
+
+        function switchToRegister() {
+            document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('landingPage').classList.add('active');
+        }
+
+        // Form submission handlers
+        document.getElementById('loginFormElement').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('Login successful!', 'success');
+        });
+
+        document.getElementById('registerFormElement').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('Registration successful!', 'success');
+        });
+
+        // Notification function
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

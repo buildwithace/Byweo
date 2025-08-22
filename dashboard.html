@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Byweo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Complete redesign to match Byweo dashboard with sidebar and professional layout -->
+    <div class="dashboard-layout">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect width="32" height="32" rx="8" fill="url(#gradient1)"/>
+                            <path d="M8 12L16 8L24 12L16 16L8 12Z" fill="white" opacity="0.9"/>
+                            <path d="M8 16L16 12L24 16L16 20L8 16Z" fill="white" opacity="0.7"/>
+                            <path d="M8 20L16 16L24 20L16 24L8 20Z" fill="white" opacity="0.5"/>
+                            <defs>
+                                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00D4FF"/>
+                                    <stop offset="100%" style="stop-color:#0099CC"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <span class="logo-text">Byweo</span>
+                </div>
+                <nav class="nav-links">
+                    <button class="btn-logout" onclick="logout()">Logout</button>
+                </nav>
+            </div>
+        </header>
+
+        <div class="dashboard-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-item active">
+                    <span class="sidebar-icon">📊</span>
+                    <span class="sidebar-text">Overview</span>
+                </div>
+                <div class="sidebar-item">
+                    <span class="sidebar-icon">🔄</span>
+                    <span class="sidebar-text">Convert</span>
+                </div>
+                <div class="sidebar-item">
+                    <span class="sidebar-icon">📈</span>
+                    <span class="sidebar-text">Staking</span>
+                </div>
+                <div class="sidebar-item">
+                    <span class="sidebar-icon">📋</span>
+                    <span class="sidebar-text">Transactions</span>
+                </div>
+                <div class="sidebar-item">
+                    <span class="sidebar-icon">💸</span>
+                    <span class="sidebar-text">Transfer</span>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="content-header">
+                    <h1>Overview</h1>
+                    <div class="search-box">
+                        <input type="text" placeholder="Search coin">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                </div>
+
+                <div class="overview-grid">
+                    <!-- Balance Section -->
+                    <div class="balance-section">
+                        <div class="balance-header">
+                            <span>Total balance</span>
+                            <div class="balance-actions">
+                                <button class="btn-action" onclick="showDepositModal()">Deposit</button>
+                                <button class="btn-action" onclick="showTransferModal()">Transfer</button>
+                            </div>
+                        </div>
+                        <div class="balance-amount">
+                            <span id="btcBalance">0</span>
+                            <span class="balance-currency">BTC</span>
+                        </div>
+                        <div class="balance-usd">$<span id="usdBalance">0.00</span></div>
+
+                        <!-- Account Balances -->
+                        <div class="account-section">
+                            <h3>Account Balances</h3>
+                            <div class="spot-balance">
+                                <span class="spot-icon">🟡</span>
+                                <span>Spot</span>
+                                <div class="spot-amount">
+                                    <span id="spotBalance">0 BTC</span>
+                                    <span class="spot-usd">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Asset Balances Table -->
+                    <div class="assets-section">
+                        <h3>Asset balances</h3>
+                        <div class="assets-table">
+                            <div class="table-header">
+                                <span>Asset</span>
+                                <span>Spot balance</span>
+                                <span>On orders</span>
+                                <span>Available balance</span>
+                                <span>Total balance</span>
+                            </div>
+                            <div class="table-row">
+                                <div class="asset-info">
+                                    <div class="asset-icon btc-icon">₿</div>
+                                    <div class="asset-details">
+                                        <span class="asset-name">BTC</span>
+                                        <span class="asset-full">Bitcoin</span>
+                                    </div>
+                                </div>
+                                <span class="balance-cell">
+                                    <span id="btcSpotBalance">0.000000 BTC</span>
+                                    <span class="balance-usd-small">$0.00</span>
+                                </span>
+                                <span class="balance-cell">
+                                    <span>0.000000 BTC</span>
+                                    <span class="balance-usd-small">$0.00</span>
+                                </span>
+                                <span class="balance-cell">
+                                    <span id="btcAvailableBalance">0.000000 BTC</span>
+                                    <span class="balance-usd-small">$0.00</span>
+                                </span>
+                                <span class="balance-cell">
+                                    <span id="btcTotalBalance">0.000000 BTC</span>
+                                    <span class="balance-usd-small">$0.00</span>
+                                </span>
+                            </div>
+                            <div class="table-row">
+                                <div class="asset-info">
+                                    <div class="asset-icon eth-icon">Ξ</div>
+                                    <div class="asset-details">
+                                        <span class="asset-name">ETH</span>
+                                        <span class="asset-full">Ethereum</span>
+                                    </div>
+                                </div>
+                                <span class="balance-cell">
+                                    <span>0.000000 ETH</span>
+                                    <span class="balance-usd-small">$0.00</span>
+                                </span>
+                                <span class="balance-cell">
+                                    <span>0.000000 ETH</span>
+                                    <span class="balance-usd-small">$0.00</span>
+                                </span>
+                                <span class="balance-cell">
+                                    <span>0.000000 ETH</span>
+                                    <span class="balance-usd-small">$0.00</span>
+                                </span>
+                                <span class="balance-cell">
+                                    <span>0.000000 ETH</span>
+                                    <span class="balance-usd-small">$0.00</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn-deposit" onclick="showDepositModal()">Deposit</button>
+                    <button class="btn-withdraw" onclick="showWithdrawModal()">Withdraw</button>
+                </div>
+
+                <!-- Promo Code Section -->
+                <div class="promo-section">
+                    <h2>PROMO CODE</h2>
+                    <p>Use a promo code to increase your balance and rewards</p>
+                    <div class="promo-form">
+                        <label>Type promo code below</label>
+                        <input type="text" id="promoCode" placeholder="YOUR PROMO CODE">
+                        <button onclick="redeemPromoCode()">ACTIVATE A PROMO CODE</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="depositModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Address</h3>
+                <span class="close" onclick="closeDepositModal()">&times;</span>
+            </div>
+            <div class="deposit-content">
+                <div class="wallet-graphic">💳</div>
+                <p>Only send BTC to this address. Sending any other asset to this address may result in the loss of your deposit.</p>
+                <div class="deposit-warning">Minimum deposit amount: 0.0005 BTC</div>
+                <div class="deposit-address">
+                    <span>bc1qzfja5yfsz7jr68xrwdyp6tpww9rtzxzeuwwfhe</span>
+                    <button onclick="copyAddress()">📋</button>
+                </div>
+                <div class="qr-code">
+    <img src="qr.png" alt="Bitcoin Deposit QR Code" class="qr-image" width="150" height="150">
+</div>
+                </div>
+                <p class="deposit-note">Please be sure that the address is correct to the token that you are depositing.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Multi-Step Withdrawal Modal -->
+    <div id="withdrawModal" class="modal">
+        <div class="modal-content withdraw-modal">
+            <div class="modal-header">
+                <h3 id="withdrawModalTitle">Select Withdrawal Method</h3>
+                <span class="close" onclick="closeWithdrawModal()">&times;</span>
+            </div>
+        
+            <!-- Step 1: Select Wallet Type -->
+            <div id="withdrawStep1" class="withdraw-step active">
+                <div class="withdraw-content">
+                    <div class="wallet-graphic">💳</div>
+                    <p>Choose your preferred withdrawal method</p>
+                    <div class="payment-methods">
+                        <div class="payment-method" onclick="selectWalletType('crypto')">
+                            <span class="payment-icon">₿</span>
+                            <span>Crypto Wallet</span>
+                            <span class="method-arrow">→</span>
+                        </div>
+                        <div class="payment-method" onclick="selectWalletType('card')">
+                            <span class="payment-icon">💳</span>
+                            <span>Visa / Mastercard</span>
+                            <span class="method-arrow">→</span>
+                        </div>
+                        <div class="payment-method" onclick="selectWalletType('paypal')">
+                            <span class="payment-icon">🏦</span>
+                            <span>PayPal</span>
+                            <span class="method-arrow">→</span>
+                        </div>
+                        <div class="payment-method" onclick="selectWalletType('swift')">
+                            <span class="payment-icon">🏦</span>
+                            <span>Swift Transfer</span>
+                            <span class="method-arrow">→</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Select Coin -->
+            <div id="withdrawStep2" class="withdraw-step">
+                <div class="withdraw-content">
+                    <div class="step-back" onclick="goToWithdrawStep(1)">← Back</div>
+                    <div class="wallet-graphic">🪙</div>
+                    <p>Select the cryptocurrency to withdraw</p>
+                    <div class="coin-selection-grid">
+                        <div class="coin-option" onclick="selectCoin('BTC')">
+                            <div class="coin-icon btc-icon">₿</div>
+                            <div class="coin-details">
+                                <span class="coin-name">Bitcoin</span>
+                                <span class="coin-symbol">BTC</span>
+                                <span class="coin-balance" id="btcWithdrawBalance">0.000000 BTC</span>
+                            </div>
+                            <span class="method-arrow">→</span>
+                        </div>
+                        <div class="coin-option" onclick="selectCoin('ETH')">
+                            <div class="coin-icon eth-icon">Ξ</div>
+                            <div class="coin-details">
+                                <span class="coin-name">Ethereum</span>
+                                <span class="coin-symbol">ETH</span>
+                                <span class="coin-balance">0.000000 ETH</span>
+                            </div>
+                            <span class="method-arrow">→</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Enter Wallet Address -->
+            <div id="withdrawStep3" class="withdraw-step">
+                <div class="withdraw-content">
+                    <div class="step-back" onclick="goToWithdrawStep(2)">← Back</div>
+                    <div class="wallet-graphic">📝</div>
+                    <h4 id="selectedCoinTitle">BTC WALLET ADDRESS</h4>
+                    <p>Enter your wallet address to receive the funds</p>
+                
+                    <div class="address-input-group">
+                        <input type="text" id="walletAddress" placeholder="Enter wallet address" required>
+                        <button type="button" class="btn-scan">📷</button>
+                    </div>
+                
+                    <div class="save-address-option">
+                        <input type="checkbox" id="saveAddress">
+                        <label for="saveAddress">Save address for next time</label>
+                    </div>
+                
+                    <div class="network-selection">
+                        <label>Select Network</label>
+                        <select id="networkSelect">
+                            <option value="">Select network...</option>
+                            <option value="BITCOIN">Bitcoin Network</option>
+                            <option value="BEP20">BEP20 (BSC)</option>
+                            <option value="ERC20">ERC20 (Ethereum)</option>
+                        </select>
+                    </div>
+                
+                    <button class="btn-continue" onclick="goToWithdrawStep(4)">Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Enter Amount -->
+            <div id="withdrawStep4" class="withdraw-step">
+                <div class="withdraw-content scrollable-content">
+                    <div class="step-back" onclick="goToWithdrawStep(3)">← Back</div>
+                    <div class="wallet-graphic">💰</div>
+                    <h4>WITHDRAWAL AMOUNT</h4>
+                
+                    <div class="balance-display">
+                        <div class="balance-item">
+                            <span class="balance-label">Available balance</span>
+                            <div class="balance-value">
+                                <span id="availableWithdrawBalance">1.300000 BTC</span>
+                                <span class="balance-usd">$56,162.50</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="amount-input-section">
+                        <label>AMOUNT TO WITHDRAW</label>
+                        <div class="amount-input-group">
+                            <input type="number" id="withdrawAmount" placeholder="0.000000" step="0.000001" min="0">
+                            <span class="currency-label" id="withdrawCurrency">BTC</span>
+                            <button type="button" class="btn-max" onclick="setMaxAmount()">Max amount</button>
+                        </div>
+                        <div class="amount-usd" id="withdrawAmountUSD">$0.00</div>
+                    </div>
+                
+                    <div class="withdraw-fee-section">
+                        <h5>WITHDRAW FEE</h5>
+                        <div class="fee-breakdown">
+                            <div class="fee-item">
+                                <span>Network Fee</span>
+                                <span id="networkFee">0.000050 BTC</span>
+                            </div>
+                            <div class="fee-item">
+                                <span>Service Fee</span>
+                                <span id="serviceFee">0.000000 BTC</span>
+                            </div>
+                            <div class="fee-item total-fee">
+                                <span>Total Fee</span>
+                                <span id="totalFee">0.000050 BTC</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="final-amount">
+                        <div class="final-item">
+                            <span>You will receive</span>
+                            <span id="finalReceiveAmount">0.000000 BTC</span>
+                        </div>
+                    </div>
+                
+                    <button class="btn-continue" onclick="processWithdraw()">Withdraw</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Activation Modal -->
+    <div id="activationModal" class="modal">
+        <div class="modal-content activation-modal">
+            <div class="activation-header">
+                <div class="error-icon">❌</div>
+                <h3>Activation</h3>
+            </div>
+            <div class="activation-content">
+                <p>To withdraw funds to a third-party address, you need to activate your account. To activate the account, make a minimum deposit of 0.00063 BTC. The deposit can also be withdrawn after account activation.</p>
+            
+            <div class="deposit-status">
+                <span>Your deposit: <span id="currentDeposit">0.000000</span> / 0.00063 BTC.</span>
+            </div>
+
+            <div class="status-table">
+                <div class="status-row">
+                    <span>Status</span>
+                    <span>Transaction ID</span>
+                </div>
+                <div class="status-row">
+                    <span class="error-status">Error</span>
+                    <span>not created</span>
+                </div>
+            </div>
+
+            <p class="support-text">Contact online support for additional information.</p>
+
+            <button class="btn-wallet" onclick="closeActivationModal()">Wallet</button>
+        </div>
+    </div>
+
+    <!-- Verification Modal -->
+    <div id="verificationModal" class="modal">
+        <div class="modal-content verification-modal">
+            <div class="modal-header">
+                <h3>Verify Withdrawal</h3>
+                <span class="close" onclick="closeVerificationModal()">&times;</span>
+            </div>
+            <div class="verification-content">
+                <div class="verify-icon">🔐</div>
+                <h4>Confirm Your Withdrawal</h4>
+                <p>Please verify the withdrawal details below:</p>
+                
+                <div class="verification-details">
+                    <div class="verify-item">
+                        <span class="verify-label">Amount:</span>
+                        <span class="verify-value" id="verifyAmount">0.000000 BTC</span>
+                    </div>
+                    <div class="verify-item">
+                        <span class="verify-label">To Address:</span>
+                        <span class="verify-value verify-address" id="verifyAddress">-</span>
+                    </div>
+                    <div class="verify-item">
+                        <span class="verify-label">Network:</span>
+                        <span class="verify-value" id="verifyNetwork">-</span>
+                    </div>
+                    <div class="verify-item">
+                        <span class="verify-label">Network Fee:</span>
+                        <span class="verify-value">0.000050 BTC</span>
+                    </div>
+                </div>
+
+                <div class="verification-warning">
+                    <div class="warning-icon">⚠️</div>
+                    <p>Please double-check the wallet address. Transactions cannot be reversed once confirmed.</p>
+                </div>
+
+                <div class="verification-actions">
+                    <button class="btn-cancel" onclick="closeVerificationModal()">Cancel</button>
+                    <button class="btn-confirm" onclick="confirmWithdrawal()">Confirm Withdrawal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification" style="z-index: 9999;"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
